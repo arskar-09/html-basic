@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>에이전시 개발자 올인원 학습 & 라이브 테스터 포털</title>
   <style>
     :root {
@@ -25,6 +25,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -32,6 +33,7 @@
       color: var(--text-main);
       display: flex;
       height: 100vh;
+      height: 100dvh;
       overflow: hidden;
     }
 
@@ -46,6 +48,7 @@
       flex-direction: column;
       padding: 1.5rem 1rem;
       flex-shrink: 0;
+      z-index: 10;
     }
 
     aside .logo {
@@ -79,6 +82,7 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
+      white-space: nowrap;
     }
 
     .nav-btn:hover {
@@ -96,12 +100,11 @@
     ========================================== */
     main {
       flex: 1;
-      height: 100vh;
+      height: 100%;
       overflow: hidden;
       position: relative;
     }
 
-    /* 일반 학습 탭 스타일 */
     .tab-content {
       display: none;
       height: 100%;
@@ -130,7 +133,6 @@
       border-bottom: 1px solid var(--border);
     }
 
-    /* 학습 카드 세션 */
     .section-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -183,7 +185,6 @@
       color: #38bdf8;
     }
 
-    /* 라이브 실습실 (Simple Playground) */
     .playground {
       background: var(--bg-card);
       border: 2px dashed var(--primary);
@@ -218,6 +219,7 @@
       color: #4ade80;
       font-weight: bold;
       font-family: monospace;
+      word-break: break-all;
     }
 
     /* ==========================================
@@ -242,13 +244,20 @@
       display: flex;
       align-items: center;
       gap: 0.8rem;
-      flex-wrap: wrap;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+
+    .sandbox-header::-webkit-scrollbar {
+      display: none;
     }
 
     .sandbox-header h2 {
       font-size: 1rem;
       color: var(--primary);
       margin-right: 0.5rem;
+      flex-shrink: 0;
     }
 
     .preset-btn {
@@ -261,6 +270,7 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s;
+      flex-shrink: 0;
     }
 
     .preset-btn:hover {
@@ -283,12 +293,12 @@
       overflow: hidden;
     }
 
-    /* 왼쪽: 코드 에디터 */
     .editor-section {
       background-color: var(--bg-main);
       display: flex;
       flex-direction: column;
       height: 100%;
+      overflow: hidden;
     }
 
     .editor-tabs {
@@ -329,6 +339,7 @@
       padding: 0.2rem 0.6rem;
       border-radius: 4px;
       font-weight: 600;
+      white-space: nowrap;
     }
 
     .editor-wrapper {
@@ -352,7 +363,6 @@
       user-select: text;
     }
 
-    /* 읽기 전용 상태 커서 시각화 */
     textarea[readonly] {
       cursor: default;
     }
@@ -361,12 +371,12 @@
       display: block;
     }
 
-    /* 오른쪽: 프레임 & 콘솔 */
     .preview-section {
       background-color: #ffffff;
       display: flex;
       flex-direction: column;
       height: 100%;
+      overflow: hidden;
     }
 
     .preview-header {
@@ -400,7 +410,7 @@
     }
 
     .console-panel {
-      height: 120px;
+      height: 110px;
       background-color: var(--bg-code);
       border-top: 1px solid var(--border);
       padding: 0.8rem;
@@ -408,12 +418,114 @@
       font-size: 0.85rem;
       color: #4ade80;
       overflow-y: auto;
+      flex-shrink: 0;
     }
 
     .console-title {
       font-size: 0.75rem;
       color: var(--text-sub);
       margin-bottom: 0.4rem;
+    }
+
+    /* ==========================================
+       모바일 최적화 미디어 쿼리 (Max-width: 768px)
+    ========================================== */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      /* 사이드바 -> 상단 가로 스크롤 네비게이션으로 전환 */
+      aside {
+        width: 100%;
+        padding: 0.8rem 1rem 0.5rem;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      aside .logo {
+        margin-bottom: 0.6rem;
+        font-size: 1rem;
+      }
+
+      nav {
+        flex-direction: row;
+        overflow-x: auto;
+        white-space: nowrap;
+        gap: 0.4rem;
+        padding-bottom: 0.3rem;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.82rem;
+        border-radius: 6px;
+        flex-shrink: 0;
+      }
+
+      /* 컨텐츠 여백 축소 */
+      .tab-content {
+        padding: 1.2rem 1rem;
+      }
+
+      h1 {
+        font-size: 1.4rem;
+      }
+
+      .subtitle {
+        font-size: 0.85rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .section-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .playground {
+        padding: 1.2rem 0.8rem;
+      }
+
+      /* 코드 샌드박스: 가로 2열 -> 세로 2행 전환 */
+      .sandbox-header {
+        padding: 0.6rem 0.8rem;
+      }
+
+      .sandbox-header h2 {
+        font-size: 0.85rem;
+      }
+
+      .sandbox-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr;
+      }
+
+      .editor-tab-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+      }
+
+      .readonly-badge {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.4rem;
+      }
+
+      textarea {
+        font-size: 0.82rem;
+        padding: 0.75rem;
+      }
+
+      .console-panel {
+        height: 85px;
+        padding: 0.6rem;
+        font-size: 0.78rem;
+      }
     }
   </style>
 </head>
@@ -424,19 +536,19 @@
     <div class="logo">🚀 DEV AGENCY 101</div>
     <nav>
       <button class="nav-btn active" onclick="openTab('html-tab', this)">
-        <span>📄</span> 1. HTML 기초 문법
+        <span>📄</span> 1. HTML 기초
       </button>
       <button class="nav-btn" onclick="openTab('css-tab', this)">
-        <span>🎨</span> 2. CSS 스타일 & 레이아웃
+        <span>🎨</span> 2. CSS 스타일
       </button>
       <button class="nav-btn" onclick="openTab('js-tab', this)">
-        <span>⚡</span> 3. JS 동작 & DOM 제어
+        <span>⚡</span> 3. JS & DOM
       </button>
       <button class="nav-btn" onclick="openTab('practice-tab', this)">
-        <span>🧪</span> 4. 기초 DOM 실습실
+        <span>🧪</span> 4. DOM 실습실
       </button>
       <button class="nav-btn" onclick="openTab('sandbox-tab', this)">
-        <span>💻</span> 5. 실무 기능 라이브 테스터
+        <span>💻</span> 5. 라이브 테스터
       </button>
     </nav>
   </aside>
@@ -592,17 +704,17 @@ btn.addEventListener('click', () => {
     <div id="sandbox-tab" class="tab-content sandbox-wrapper">
       <!-- 샌드박스 프리셋 바 -->
       <div class="sandbox-header">
-        <h2>⚡ 실무 기능 테스트기</h2>
-        <button class="preset-btn active" onclick="loadPreset('modal', this)">1. 팝업 모달(Modal)</button>
-        <button class="preset-btn" onclick="loadPreset('tab', this)">2. 탭 UI(Tab Menu)</button>
-        <button class="preset-btn" onclick="loadPreset('accordion', this)">3. 아코디언(Accordion)</button>
-        <button class="preset-btn" onclick="loadPreset('darkmode', this)">4. 다크모드 토글</button>
-        <button class="preset-btn" onclick="loadPreset('validation', this)">5. 폼 입력값 검증</button>
+        <h2>⚡ 기능 테스트</h2>
+        <button class="preset-btn active" onclick="loadPreset('modal', this)">1. 모달(Modal)</button>
+        <button class="preset-btn" onclick="loadPreset('tab', this)">2. 탭 UI</button>
+        <button class="preset-btn" onclick="loadPreset('accordion', this)">3. 아코디언</button>
+        <button class="preset-btn" onclick="loadPreset('darkmode', this)">4. 다크모드</button>
+        <button class="preset-btn" onclick="loadPreset('validation', this)">5. 폼 검증</button>
       </div>
 
       <!-- 샌드박스 메인 분할 워크스페이스 -->
       <div class="sandbox-body">
-        <!-- 왼쪽: 에디터 -->
+        <!-- 상단/좌측: 에디터 -->
         <section class="editor-section">
           <div class="editor-tabs">
             <div class="tab-group">
@@ -610,17 +722,16 @@ btn.addEventListener('click', () => {
               <button class="editor-tab-btn" onclick="switchEditor('css', this)">CSS</button>
               <button class="editor-tab-btn" onclick="switchEditor('js', this)">JavaScript</button>
             </div>
-            <span class="readonly-badge">🔒 읽기 전용 (Read-Only)</span>
+            <span class="readonly-badge">🔒 Read-Only</span>
           </div>
           <div class="editor-wrapper">
-            <!-- readonly 속성을 적용하여 직접 수정 방지 -->
             <textarea id="htmlCode" class="active" spellcheck="false" readonly></textarea>
             <textarea id="cssCode" spellcheck="false" readonly></textarea>
             <textarea id="jsCode" spellcheck="false" readonly></textarea>
           </div>
         </section>
 
-        <!-- 오른쪽: 프리뷰 및 콘솔 -->
+        <!-- 하단/우측: 프리뷰 및 콘솔 -->
         <section class="preview-section">
           <div class="preview-header">
             <span>LIVE PREVIEW</span>
@@ -702,7 +813,6 @@ btn.addEventListener('click', () => {
       }
     };
 
-    // 에디터 탭 전환 (HTML / CSS / JS)
     function switchEditor(type, element) {
       document.querySelectorAll('.editor-tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.editor-wrapper textarea').forEach(ta => ta.classList.remove('active'));
@@ -711,7 +821,6 @@ btn.addEventListener('click', () => {
       document.getElementById(`${type}Code`).classList.add('active');
     }
 
-    // 프리셋 로드
     function loadPreset(name, element) {
       if (element) {
         document.querySelectorAll('.preset-btn').forEach(btn => btn.classList.remove('active'));
@@ -725,7 +834,6 @@ btn.addEventListener('click', () => {
       runCode();
     }
 
-    // 코드 실행 및 프레임 전달
     function runCode() {
       const html = document.getElementById('htmlCode').value;
       const css = document.getElementById('cssCode').value;
@@ -736,6 +844,7 @@ btn.addEventListener('click', () => {
         <!DOCTYPE html>
         <html>
         <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <style>${css}</style>
         </head>
         <body>
@@ -759,14 +868,12 @@ btn.addEventListener('click', () => {
       preview.srcdoc = fullCode;
     }
 
-    // iframe 가상 콘솔 메시지 수신
     window.addEventListener('message', (e) => {
       if (e.data && e.data.type === 'LOG') {
         document.getElementById('consoleLog').textContent = `> ${e.data.data}`;
       }
     });
 
-    // 최초 로드 시 모달 프리셋 렌더링
     loadPreset('modal');
   </script>
 </body>
